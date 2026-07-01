@@ -6,13 +6,9 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update
 RUN dpkg --add-architecture i386
-RUN apt-get install -y curl expect git openjdk-11-jdk openjdk-17-jdk wget unzip vim python2.7
-## RUN apt-get install -y libc6:i386 libgcc1:i386 libncurses5:i386 libstdc++6:i386 zlib1g:i386
+RUN apt-get install -y curl expect git openjdk-17-jdk wget unzip vim python3 python-is-python3
 RUN apt-get clean
     
-# create a link to python
-RUN ln -s /usr/bin/python2.7 /usr/bin/python
-
 ## Setup Android command line tools and folders.
 ## Note: in newer command line tools, must move all of extracted contents
 ##       to a folder named 'latest'.
@@ -23,8 +19,8 @@ WORKDIR /opt/android-sdk-linux/cmdline-tools
 
 ## Download latest command line tools
 
-RUN wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
-RUN unzip commandlinetools-linux-9477386_latest.zip
+RUN wget https://dl.google.com/android/repository/commandlinetools-linux-14742923_latest.zip
+RUN unzip commandlinetools-linux-14742923_latest.zip
 RUN mv cmdline-tools tools
 
 ## Change working directory to /opt/android-sdk-linux/cmdline-tools
@@ -39,7 +35,7 @@ ENV ANDROID_SDK       ${ANDROID_HOME}
 ENV PATH "${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin"
 ENV PATH "${PATH}:${ANDROID_HOME}/cmdline-tools/tools/bin"
 ENV PATH "${PATH}:${ANDROID_HOME}/tools/bin"
-ENV PATH "${PATH}:${ANDROID_HOME}/build-tools/31.0.0"
+ENV PATH "${PATH}:${ANDROID_HOME}/build-tools/35.0.0"
 ENV PATH "${PATH}:${ANDROID_HOME}/platform-tools"
 ENV PATH "${PATH}:${ANDROID_HOME}/emulator"
 ENV PATH "${PATH}:${ANDROID_HOME}/bin"
@@ -53,8 +49,8 @@ RUN echo "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > licenses/android-sdk-lic
 
 ## Install
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "cmdline-tools;latest"
-RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "build-tools;30.0.3"
+RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "build-tools;35.0.0"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "platform-tools"
-RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "platforms;android-31"
+RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "platforms;android-35"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "ndk-bundle"
 RUN /opt/android-sdk-linux/cmdline-tools/tools/bin/sdkmanager "cmake;3.18.1"
